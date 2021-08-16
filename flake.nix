@@ -38,21 +38,6 @@
         defaultApp = self.defaultPackage;
         apps = self.packages;
 
-        devShell = forAllSystems (system:
-          let
-            pkgs = import nixpkgs { inherit system; overlays = mapAttrsToList (_: id) self.overlays; };
-          in
-            pkgs.mkShell {
-              nativeBuildInputs = with pkgs.qt5; with pkgs;
-                [ wrapQtAppsHook qmake
-                  pkg-config protobuf
-                  tor
-                ];
-              buildInputs = with pkgs.qt5;
-                [ qtbase qttools qtquickcontrols qtdeclarative qtmultimedia
-                ];
-            }
-        );
-
+        devShell = forAllSystems (system: self.packages.${system}.ricochet);
       };
 }

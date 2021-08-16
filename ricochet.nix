@@ -21,6 +21,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = with qt5;
     [ wrapQtAppsHook qmake
       pkg-config protobuf
+      tor
     ];
 
   patchPhase = ''
