@@ -35,8 +35,18 @@
             pkgs.ricochet
         );
 
-        defaultApp = self.defaultPackage;
-        apps = self.packages;
+        apps = mapAttrs (_: v:
+          mapAttrs (_: a:
+            {
+              type = "app";
+              program = a;
+            }
+          ) v
+        ) self.packages;
+
+        defaultApp = mapAttrs (_: v:
+          v.ricochet
+        ) self.apps;
 
         devShell = forAllSystems (system: self.packages.${system}.ricochet);
       };
